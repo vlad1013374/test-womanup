@@ -16,41 +16,9 @@
     }
   ],
   "paths": {
-    "/users/{id}": {
-      "get": {
-        "summary": "returns simple answer from get",
-        "tags": [
-          "API functions"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "simple parameter",
-            "schema": {
-              "type": "string",
-              "example": "1"
-            }
-          }
-        ],
-        "description": "parameter id just for test",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "document": {
-                "schema": {
-                  "type": "string",
-                  "example": "some text"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/auth/sign-in": {
       "post": {
-        "summary": "returns simple answer from post",
+        "summary": "возвращает JWT токен при логине",
         "tags": [
           "API functions"
         ],
@@ -59,67 +27,307 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Info"
+                "$ref": "#/components/schemas/User"
               },
               "example": {
-                "country": "Russia",
-                "city": "Spb"
+                "email": "graph@mail.com",
+                "password": "graph"
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": "{'token': token}"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/sign-up": {
+      "post": {
+        "summary": "возвращает JWT токен при регистрации",
+        "tags": [
+          "API functions"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "email": "graph@mail.com",
+                "password": "graph"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": "{'token': token}"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "возвращает todo по id",
+        "tags": [
+          "API functions"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "simple parameter",
             "schema": {
               "type": "string",
-              "example": "1"
+              "example": "6380e45ab638805801e6588b"
             }
           }
         ],
-        "description": "parameter id just for test",
         "responses": {
-          "204": {
-            "description": "OK"
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": "todo: {'task':'some task', 'createdAt': 'time', 'updatedAt':'time'}"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "put": {
+        "summary": "обновляет todo по id",
+        "tags": [
+          "API functions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "6380e45ab638805801e6588b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": "{'message':'Task was updated'}"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "удаляет todo по id",
+        "tags": [
+          "API functions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "6380e45ab638805801e6588b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": "{'message':'Task was deleted'}"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/todos/create": {
+      "post": {
+        "summary": "возвращает созданный todo",
+        "tags": [
+          "API functions"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToDo"
+              },
+              "example": {
+                "task": "вынести мусор"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": "todo: {'task': task, 'owner': 'ownerId', 'updatedAt':'time', 'createdAt': 'time'}"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+    "/todos/create": {
+      "post": {
+        "summary": "возвращает созданный todo",
+        "tags": [
+          "API functions"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToDo"
+              },
+              "example": {
+                "task": "вынести мусор"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": "todo: {'task': task, 'owner': 'ownerId', 'updatedAt':'time', 'createdAt': 'time'}"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/todos": {
+      "get": {
+        "summary": "возвращает todo зависимо от page и limit",
+        "tags": [
+          "API functions"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "example": 3
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "example": 3
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": "todos: [{'task':'some task', 'createdAt': 'time', 'updatedAt':'time'}....]"
+                }
+              }
+            }
           }
         }
       }
     }
   },
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
+
+
+
+
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
           }
-        }
-      },
-      "ToDo": {
-        "type": "object",
-        "properties": {
-          "task": {
-            "type": "string"
-          },
-          "owner": {
-            "type": "number"
-          },
-          "createdAt": {
-            "type": "timestamp"
-          },
-          "updatedAt": {
-            "type": "timestamp"
+        },
+        "ToDo": {
+          "type": "object",
+          "properties": {
+            "task": {
+              "type": "string"
+            },
+            "owner": {
+              "type": "number"
+            },
+            "createdAt": {
+              "type": "timestamp"
+            },
+            "updatedAt": {
+              "type": "timestamp"
+            }
           }
         }
       }
-
     }
   }
-}

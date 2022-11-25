@@ -56,7 +56,7 @@ class TodoController {
         try{
             const userId = req.user.id;
             const todoId = req.params["id"];
-            const todo = await ToDo.find()
+            const todo = await ToDo.findOne()
                 .where('owner').equals(userId)
                 .select('-owner')
                 .where('_id').equals(todoId);
