@@ -12,7 +12,7 @@ class TodoController {
         try{
             const userId = req.user.id;
             const {task} = req.body;
-            const todo = await new ToDo({task, owner: userId});
+            const todo = new ToDo({task, owner: userId});
             await todo.save();
             return res.json({todo})
         } catch(err) {
