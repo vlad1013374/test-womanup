@@ -292,11 +292,77 @@
           }
         }
       }
+    },
+
+    "/files/upload": {
+      "post": {
+        "summary": "возвращает имя созраненного файла",
+        "tags": [
+          "API functions"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "file"
+              },
+              "example": {
+                "file": "image"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "string",
+                  "example": "365bd1f7-4af2-4486-986e-c744827b3258.jpg"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/static/{name}": {
+      "get": {
+        "summary": "возвращает имя созраненного файла",
+        "tags": [
+          "API functions"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "365bd1f7-4af2-4486-986e-c744827b3258.jpg"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "file",
+                  "example": "image"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
-
-
-
 
     "components": {
       "schemas": {
